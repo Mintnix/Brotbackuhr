@@ -1,0 +1,65 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  Move(0,0,406,266)
+  #Scaled = False
+  Background = &HD4B99E
+  Resizable = False
+  Border = False
+  Opacity = 80
+  { Button1 Button
+    Move(7,224,392,35)
+    Font = Font["11"]
+    Text = ("Einstellungen übernehmen")
+  }
+  { Label1 Label
+    Move(0,7,406,35)
+    Font = Font["11"]
+    Alignment = Align.Center
+    Text = ("Hier die gewünschten Backzeiten und Gradzahlen vorgeben:")
+  }
+  { ValueBox1 ValueBox
+    Move(336,56,63,35)
+    Font = Font["11"]
+    Foreground = Color.Royal
+    Alignment = Align.Center
+  }
+  { ValueBox2 ValueBox
+    Move(336,98,63,35)
+    Font = Font["11"]
+    Foreground = Color.Red
+    Alignment = Align.Center
+  }
+  { ValueBox3 ValueBox
+    Move(336,140,63,35)
+    Font = Font["11"]
+    Foreground = Color.Royal
+    Alignment = Align.Center
+  }
+  { ValueBox4 ValueBox
+    Move(336,182,63,35)
+    Font = Font["11"]
+    Foreground = Color.Red
+    Alignment = Align.Center
+  }
+  { Label2 Label
+    Move(42,56,280,35)
+    Font = Font["11"]
+    Text = ("Anbackzeit in Minuten (große Hitze)")
+  }
+  { Label3 Label
+    Move(42,98,280,35)
+    Font = Font["11"]
+    Text = ("Anbackhitze in Grad °C  (große Hitze)")
+  }
+  { Label4 Label
+    Move(42,140,280,35)
+    Font = Font["11"]
+    Text = ("Ausbackzeit in Minuten (kleine Hitze)")
+  }
+  { Label5 Label
+    Move(42,182,280,35)
+    Font = Font["11"]
+    Text = ("Ausbackhitze in Grad °C  (kleine Hitze)")
+  }
+}

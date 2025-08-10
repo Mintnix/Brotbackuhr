@@ -1,0 +1,74 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  Move(0,0,315,133)
+  #Scaled = False
+  Background = &HD4B99E
+  PopupMenu = "Menu1"
+  Resizable = False
+  Border = False
+  Utility = True
+  Opacity = 75
+  { Menu1 Menu
+    Text = ("PopUp")
+    { Menu4 Menu
+      Text = ("Brotbackzeit 15 / 45 (60) Minuten")
+      Picture = Picture["icon:/medium/chronometer"]
+    }
+    { Menu5 Menu
+      Text = ("Brotbackzeit 10 / 45 (55) Minuten")
+      Picture = Picture["icon:/medium/chronometer"]
+    }
+    { Menu6 Menu
+      Text = ("Brotbackzeit 20 / 40 (60) Minuten")
+      Picture = Picture["icon:/medium/chronometer"]
+    }
+    { Menu7 Menu
+      Text = ("Pizza 10 / 20 (30) Minuten mit Vorheizen")
+      Picture = Picture["icon:/medium/chronometer"]
+    }
+    { Menu8 Menu
+      Text = ("Eigene Backzeit")
+      Picture = Picture["icon:/medium/clock"]
+    }
+    { Menu9 Menu
+      Text = ("Soundtest")
+      Picture = Picture["icon:/medium/music"]
+    }
+    { Menu2 Menu
+      Text = ("Reset")
+      Picture = Picture["icon:/medium/refresh"]
+    }
+    { Menu10 Menu
+      Text = ("Info")
+      Picture = Picture["icon:/medium/info"]
+    }
+    { Menu3 Menu
+      Text = ("Schließen")
+      Picture = Picture["icon:/medium/close"]
+    }
+  }
+  { Label1 Label
+    Move(140,14,168,35)
+    Font = Font["10"]
+    Alignment = Align.Center
+  }
+  { PictureBox1 PictureBox
+    Move(196,42,64,64)
+  }
+  { Timer1 #Timer
+    #Move(259,7)
+  }
+  { Spinner1 Spinner
+    Move(14,21,126,98)
+    Foreground = &H0000A0
+    Type = Spinner.Dot
+  }
+  { !Button1 Button
+    Move(14,14,287,105)
+    #Public = True
+    Font = Font["Bold,14"]
+    Background = &HD4AC84
+    Text = ("Backuhr starten")
+  }
+}

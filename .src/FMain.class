@@ -1,0 +1,180 @@
+' Gambas class file
+
+Public Zeit As Integer = 1
+Public Faktor As Integer = 60           'Minute = 60 Sekunden
+Public iAusbackzeit As Integer = 45     'hohe Temperatur
+Public iAnbackzeit As Integer = 15      'niedrige Temperatur
+Public iAnbackhitze As Integer = 250
+Public iAusbackhitze As Integer = 190
+Public n As Integer                     'Zähler
+Private bPizzaoderbrot As Boolean = 0
+Public tStartzeit As Date
+Public tEndzeit As Date
+
+
+
+Public Sub Form_Open()
+    'Was beim ersten Öffnen des Programms passiert
+    Print Desktop.Width
+    Me.X = Desktop.Width - Me.Width - 50
+    Me.Y = 50
+    Menu1.Visible = 0
+    Button1.Tooltip = "Anbackzeit " & iAnbackzeit & " Minuten bei " & iAnbackhitze & " °C & \n Ausbackzeit " & iAusbackzeit & " Minuten bei " & iAusbackhitze & " °C." 
+End
+
+
+Public Sub Button1_Click()
+    'Starten der Uhr
+    n = 0
+    Zeit = iAnbackzeit + iAusbackzeit
+    Print Zeit & " Minuten Backzeit"
+    Zeit = Zeit * Faktor
+    
+    iAnbackzeit = iAnbackzeit * Faktor
+    iAusbackzeit = iAusbackzeit * Faktor
+    Print iAnbackzeit
+    Print iAusbackzeit
+    Print "Gesamtlaufzeit in Sekunden: " & Zeit
+    
+    Timer1.Delay = 1000
+    Spinner1.Value = 0
+    Spinner1.Label = -1
+    Button1.Hide
+   
+    Timer1.Start()
+    Spinner1.Start()
+End
+
+Public Sub Timer1_Timer()
+    ' Timerfunktionen    
+    Dim x As Float
+    'Dim hPicture As Picture
+
+    If Timer1.Enabled = True Then n += 1
+    Print n
+    If n < 60 Then x = n Else x = n / 60
+    If n < 60 Then Label1.Text = "Abgelaufene Sekunden\n" & x
+    If n > 60 Then Label1.Text = "Abgelaufene Minuten\n" & Format(x, "0")
+
+    If bPizzaoderbrot = 0 Then 
+        If PictureBox1.Picture = Picture["Image1.png"] Then PictureBox1.Picture = Picture["Image2.png"] Else PictureBox1.Picture = Picture["Image1.png"]
+    Else 
+        If PictureBox1.Picture = Picture["Image3.png"] Then PictureBox1.Picture = Picture["Image4.png"] Else PictureBox1.Picture = Picture["Image3.png"]
+    Endif
+    
+    If Zeit < 1 Then Message.Info("Fehler, Zeit kleiner 1 Minute.")
+    If Zeit < 1 Then Menu2_Click()
+    If Zeit >= 1 Then Spinner1.Value = Spinner1.Value + (1 / Zeit)
+     
+    If n = iAnbackzeit Then Shell "amixer set Master 40%" Wait
+    If n = iAnbackzeit Then Shell "speaker-test -t sine -f 2500 -l 1 & sleep 3 && kill -9 $!" Wait
+    If n = iAnbackzeit Then Shell "amixer set Master 60%" Wait
+    If n = iAnbackzeit Then Shell "speaker-test -t sine -f 2500 -l 1 & sleep 2 && kill -9 $!" Wait
+    If n = iAnbackzeit Then Message.Info("Backofentemperatur von " & iAnbackhitze & " °C auf " & iAusbackhitze & " °C herunterdrehen.")
+    
+    If n = Zeit Then 
+        Timer1.Stop()
+        Spinner1.Stop()
+        Shell "speaker-test -t sine -f 1300 -l 1 & sleep 3 && kill -9 $!" Wait
+        Shell "speaker-test -t sine -f 1000 -l 2 & sleep 2 && kill -9 $!" Wait
+        Shell "amixer set Master 75%" Wait
+        Shell "speaker-test -t sine -f 1300 -l 1 & sleep 2 && kill -9 $!" Wait
+        Shell "speaker-test -t sine -f 1000 -l 2 & sleep 2 && kill -9 $!" Wait 
+        Shell "tput bel" Wait 
+        Shell "amixer set Master 35%" Wait
+        Message.Warning("Zeit ist abgelaufen. \nBrot aus dem Ofen nehmen !!!", "OK")
+    Endif 
+
+
+End
+
+Public Sub Menu2_Click()
+    'Alles zurücksetzen und stoppen
+    Timer1.Stop
+    Spinner1.Stop
+    n = 0
+    Zeit = 1
+    iAusbackzeit = 45
+    iAnbackzeit = 15
+    iAnbackhitze = 250
+    iAusbackhitze = 190
+    PictureBox1.Picture = Picture[""]
+    Wait 1
+    Button1.Show
+    Button1.Tooltip = " Anbackzeit " & iAnbackzeit & " Minuten bei " & iAnbackhitze & " °C & \n Ausbackzeit " & iAusbackzeit & " Minuten bei " & iAusbackhitze & " °C. \n (Standardzeit)"
+    bPizzaoderbrot = 0
+End
+
+Public Sub Menu3_Click()
+    'Programm beenden
+    Einstellung.Close()
+    Me.Close()
+End
+
+Public Sub Button1_MouseWheel()
+    'Mausrad drehen um Durchsichtigkeit einzustellen
+    If Mouse.Forward = -1 Then Me.Opacity = Me.Opacity + 5
+    If Mouse.Forward = 0 Then Me.Opacity = Me.Opacity - 5
+    If Me.Opacity <= 5 Then Me.Opacity = 15
+End
+
+Public Sub Menu4_Click()
+    '15/45 Min
+    iAnbackzeit = 15
+    iAusbackzeit = 45
+    iAnbackhitze = 250
+    iAusbackhitze = 190
+    Button1.Tooltip = " Anbackzeit " & iAnbackzeit & " Minuten bei " & iAnbackhitze & " °C & \n Ausbackzeit " & iAusbackzeit & " Minuten bei " & iAusbackhitze & " °C. \n (Standardzeit)"
+    PictureBox1.Picture = Picture["Image2.png"]
+End
+
+Public Sub Menu5_Click()
+    '10/45 Min
+    iAnbackzeit = 10
+    iAusbackzeit = 45
+    iAnbackhitze = 250
+    iAusbackhitze = 200
+    Button1.Tooltip = " Anbackzeit " & iAnbackzeit & " Minuten bei " & iAnbackhitze & " °C & \n Ausbackzeit " & iAusbackzeit & " Minuten bei " & iAusbackhitze & " °C. \n (weniger Kruste)"
+End
+
+Public Sub Menu6_Click()
+    '20/40 Min
+    iAnbackzeit = 20
+    iAusbackzeit = 40
+    iAnbackhitze = 250
+    iAusbackhitze = 190
+    Button1.Tooltip = " Anbackzeit " & iAnbackzeit & " Minuten bei " & iAnbackhitze & " °C & \n Ausbackzeit " & iAusbackzeit & " Minuten bei " & iAusbackhitze & " °C. \n (mehr Kruste)"
+End
+
+Public Sub Menu7_Click()
+    '10/20 Min
+    iAnbackzeit = 10
+    iAusbackzeit = 20
+    iAnbackhitze = 200
+    iAusbackhitze = 200
+    Button1.Tooltip = " Vorheizen " & iAnbackzeit & " Minuten bei " & iAnbackhitze & " °C & \n Backzeit " & iAusbackzeit & " Minuten bei " & iAusbackhitze & " °C. \n (Pizza)"
+    bPizzaoderbrot = -1
+End
+
+Public Sub Menu8_Click()
+    'eigene Backeinstellung
+    Einstellung.Show
+End
+
+Public Sub Menu9_Click()
+    'Soundcheck
+    Message.Info("Es wird ein Soundcheck durchgeführt.\n\nDabei werden Töne mit unterschiedlicher Lautstärke abgespielt. Stellen Sie die Lautstärke \nan Ihren Boxen (nicht im im Systemtray) so ein, das Sie den ersten Ton bereits gut hören \nkönnen. Der erste Ton wird mit 35% Systemlautstärke abgespielt, der zweite Ton mit 50% \nund der dritte Ton mit einer Stärke von 70%. \n\nMit diesen Einstellungen sollten die Alarme gut hörbar sein.")
+    'sleep stellt die Ton-Dauer ein
+    Shell "amixer set Master 35%" Wait
+    Shell "speaker-test -t sine -f 1000 -l 1 & sleep 4 && kill -9 $!" Wait
+    Shell "amixer set Master 50%" Wait
+    Shell "speaker-test -t sine -f 1000 -l 1 & sleep 2 && kill -9 $!" Wait
+    Shell "amixer set Master 70%" Wait
+    Shell "speaker-test -t sine -f 1000 -l 1 & sleep 2 && kill -9 $!" Wait
+End
+
+Public Sub Menu10_Click()
+    'Programminfo
+    Desktop.Open("https://openyourlinux.blogspot.com/p/die-brotbackuhr.html")
+    
+End

@@ -1,0 +1,13 @@
+' Gambas class file
+
+
+Public Sub Button1_Click()
+    'Einstellungen speichern und übernehmen
+    FMain.iAnbackzeit = ValueBox1.Value
+    FMain.iAnbackhitze = ValueBox2.Value
+    FMain.iAusbackzeit = ValueBox3.Value
+    FMain.iAusbackhitze = ValueBox4.Value
+    FMain.Button1.Tooltip = ValueBox1.Value & " Minuten anbacken bei " & ValueBox2.Value & " °C\n" & ValueBox3.Value & " Minuten ausbacken bei " & ValueBox4.Value & " °C\n\nReset setzt Einstellungen zurück." 
+    
+    Me.Close()
+End
